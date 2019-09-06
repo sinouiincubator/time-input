@@ -1,0 +1,66 @@
+---
+name: 首页
+route: /
+---
+
+import { useState } from 'react';
+import { Playground, Props } from 'docz';
+import TimeInput from '../src/TimeInput';
+
+# 时间输入框 `TimeInput`
+
+安装依赖：
+
+```shell
+yarn add @sinouiincubator/time-input
+```
+
+基本用法：
+
+```tsx
+import React, { useState } from 'react';
+import TimeInput from '@sinouiincubator/time-input';
+
+function Demo() {
+  const [value, setValue] = useState('');
+
+  return <TimeInput value={value} onChange={setValue} />;
+}
+```
+
+效果如下：
+
+<Playground>
+  {() => {
+    const [value, setValue] = useState('');
+    return <TimeInput value={value} onChange={setValue} />;
+  }}
+</Playground>
+
+## 特性
+
+TODO
+
+## 属性
+
+<Props of={TimeInput} />
+
+## 值处理
+
+处理的值是形如 `02:12` 这样的时间，目前只支持 `24` 小时制，不支持 `12` 小时制的时间格式。
+
+> 限制：如果输入框中的时间没有输入完整，则不会向外发送值变更事件，即不会调用`onChange`属性，只有当输入了完整的时间，才会向外发送值变更事件。
+
+TODO
+
+## 与 `@sinoui/forms` 集成
+
+TODO
+
+## 与 `@sinoui/rx-form-state` 集成
+
+TODO
+
+## 样式定制
+
+TODO
