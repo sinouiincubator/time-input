@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.1.0
+## v0.1.0 (2019.9.7)
 
 - feat: UI 与 Chrome 的 `<input type="time" />` 一致。
 - feat: 支持 IE 11+ 和现代浏览器。
