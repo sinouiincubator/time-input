@@ -1,3 +1,5 @@
-import Counter from './Counter';
+import TimeInput, { Props as TimeInputProps } from './TimeInput';
 
-export default Counter;
+export { TimeInputProps };
+
+export default TimeInput;
