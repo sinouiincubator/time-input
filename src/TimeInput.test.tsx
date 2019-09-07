@@ -8,6 +8,8 @@ import TimeInput from './TimeInput';
 
 afterEach(cleanup);
 
+jest.useFakeTimers();
+
 it('展现空的时间', () => {
   const { getAllByTestId } = render(
     <ThemeProvider theme={defaultTheme}>
@@ -91,6 +93,25 @@ it('输入有效时间触发onChange事件', () => {
   });
 
   expect(handleChange).toBeCalledWith('11:12');
+});
+
+it('输入分钟，改变时间', () => {
+  const handleChange = jest.fn();
+  const { getAllByTestId } = render(
+    <ThemeProvider theme={defaultTheme}>
+      <TimeInput value="01:12" onChange={handleChange} />
+    </ThemeProvider>,
+  );
+
+  const [, minute] = getAllByTestId('timeNumberInput');
+
+  act(() => {
+    fireEvent.keyDown(minute, {
+      key: '1',
+    });
+  });
+
+  expect(handleChange).toBeCalledWith('01:21');
 });
 
 it('点击清空按钮，清空值', () => {
@@ -231,4 +252,52 @@ it('不可用', () => {
   );
 
   expect(getByTestId('timeInput')).toHaveTextContent('19:12');
+});
+
+it('监听焦点事件', () => {
+  const handleFocus = jest.fn();
+  const handleBlur = jest.fn();
+  const { getAllByTestId } = render(
+    <ThemeProvider theme={defaultTheme}>
+      <TimeInput value="19:12" onFocus={handleFocus} onBlur={handleBlur} />
+    </ThemeProvider>,
+  );
+
+  const [hour, minute] = getAllByTestId('timeNumberInput');
+
+  act(() => {
+    fireEvent.focus(hour);
+  });
+
+  expect(handleFocus).toBeCalled();
+
+  act(() => {
+    fireEvent.focus(minute);
+  });
+
+  expect(handleFocus).toBeCalledTimes(1);
+
+  act(() => {
+    fireEvent.blur(minute);
+  });
+
+  act(() => {
+    jest.runAllTimers();
+  });
+
+  expect(handleBlur).toBeCalled();
+});
+
+it('设置id和name', () => {
+  const { getAllByTestId } = render(
+    <ThemeProvider theme={defaultTheme}>
+      <TimeInput value="19:12" id="startTime1" name="startTime" />
+    </ThemeProvider>,
+  );
+
+  const [hour, minute] = getAllByTestId('timeNumberInput');
+
+  expect(hour).toHaveAttribute('name', 'startTime');
+  expect(minute).toHaveAttribute('name', 'startTime');
+  expect(hour).toHaveAttribute('id', 'startTime1');
 });

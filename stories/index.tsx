@@ -37,4 +37,9 @@ storiesOf('time-input', module)
     <ThemeProvider theme={defaultTheme}>
       <TimeInput readOnly value="01:12" />
     </ThemeProvider>
+  ))
+  .add('焦点事件', () => (
+    <ThemeProvider theme={defaultTheme}>
+      <TimeInput onFocus={action('focus')} onBlur={action('blur')} />
+    </ThemeProvider>
   ));

@@ -12,6 +12,8 @@ import {
 import getNextTimeValue from './utils/getNextTimeValue';
 
 interface Props {
+  id?: string;
+  name?: string;
   value: string;
   onChange: (value: string) => void;
   onInputEnd?: () => void;
@@ -27,7 +29,16 @@ interface Props {
  */
 const NumberInput: React.SFC<Props> = React.forwardRef(
   (
-    { value, onChange, onKeyDown, onInputEnd, onFocus, onBlur, max }: Props,
+    {
+      value,
+      onChange,
+      onKeyDown,
+      onInputEnd,
+      onFocus,
+      onBlur,
+      max,
+      ...rest
+    }: Props,
     ref?: React.Ref<HTMLInputElement>,
   ) => {
     const keyIndexRef = useRef<number>(0);
@@ -114,6 +125,7 @@ const NumberInput: React.SFC<Props> = React.forwardRef(
         ref={ref}
         value={value}
         readOnly
+        {...rest}
       />
     );
   },

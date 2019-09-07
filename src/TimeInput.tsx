@@ -9,14 +9,20 @@ import TimeInputActions from './TimeInputActions';
 
 export interface Props {
   /**
-   * 时间输入框值。例如 ''、 01:12、 13:12。
+   * 时间输入框值。例如 ''、 01:12、 13:12。只支持 24 小时制时间格式，不支持 12 小时制时间格式。
    */
   value?: string;
   /**
    * 添加值变更事件监听器
    */
   onChange?: (value: string) => void;
+  /**
+   * 指定输入框的类名
+   */
   className?: string;
+  /**
+   * 指定输入框的css样式
+   */
   style?: React.CSSProperties;
   /**
    * 只读
@@ -26,6 +32,31 @@ export interface Props {
    * 不可用
    */
   disabled?: boolean;
+
+  /**
+   * 指定时间输入框是否检验错误，如果是，则输入框显示验证错误 UI 。默认为 false 。
+   */
+  error?: boolean;
+
+  /**
+   * 添加聚焦事件监听器
+   */
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+
+  /**
+   * 添加失去焦点事件监听器
+   */
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+
+  /**
+   * 表单项名称
+   */
+  name?: string;
+
+  /**
+   * DOM 元素 id
+   */
+  id?: string;
 }
 
 /**
@@ -38,6 +69,11 @@ function TimeInput({
   style,
   readOnly,
   disabled,
+  error,
+  onFocus,
+  onBlur,
+  id,
+  name,
 }: Props) {
   const [hour, setHourState] = useState(() => parseTimeStr(value)[0]);
   const [minute, setMinuteState] = useState(() => parseTimeStr(value)[1]);
@@ -128,11 +164,10 @@ function TimeInput({
   // 处理步进值变化（适合处理加一、减一这样的操作）
   const handleStepChange = useCallback(
     (num: number) => {
-      clearTimeout(delayTimerIdRef.current);
       if (active() === 'hour') {
         changeTime(add(timeRef.current[0], 23, num), timeRef.current[1]);
         focusHour();
-      } else if (active() === 'minute') {
+      } else {
         changeTime(timeRef.current[0], add(timeRef.current[1], 59, num));
         focusMinute();
       }
@@ -148,6 +183,49 @@ function TimeInput({
     handleStepChange(-1);
   }, [handleStepChange]);
 
+  // 处理聚焦事件
+  const handleFocus = (event: React.FocusEvent<HTMLDivElement>) => {
+    clearTimeout(delayTimerIdRef.current);
+
+    const { target } = event;
+
+    if (target === hourElementRef.current) {
+      isMinuteActiveRef.current = false;
+    }
+
+    if (target === minuteElementRef.current) {
+      isMinuteActiveRef.current = true;
+    }
+
+    if (!isFocusing) {
+      setIsFocusing(true);
+      if (onFocus) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onFocus(event as any);
+      }
+    }
+  };
+
+  // 处理失去焦点事件
+  const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+    clearTimeout(delayTimerIdRef.current);
+
+    if (onBlur) {
+      event.persist();
+    }
+
+    // 因点击三个操作按钮（清除、上、下）会出现blur和focus事件，所以需要延迟处理blur，以判断是否是此种情况失去的焦点
+    delayTimerIdRef.current = setTimeout(() => {
+      setIsFocusing(false);
+      isMinuteActiveRef.current = false;
+      if (onBlur) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onBlur(event as any);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }, 100) as any;
+  };
+
   if (readOnly || disabled) {
     return (
       <TimeInputWrapper
@@ -158,6 +236,7 @@ function TimeInput({
         disabled={disabled}
         readOnly={readOnly}
         data-testid="timeInput"
+        error={error}
       >
         <div className="sinoui-time-input-text-content">
           {hour}:{minute}
@@ -175,10 +254,9 @@ function TimeInput({
       })}
       style={style}
       focused={isFocusing}
-      onFocus={() => {
-        setIsFocusing(true);
-      }}
-      onBlur={() => setIsFocusing(false)}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      error={error}
     >
       <NumberInput
         value={hour}
@@ -187,10 +265,8 @@ function TimeInput({
         onInputEnd={handleHourInputEnd}
         onKeyDown={handleHourInputKeyDown}
         ref={hourElementRef}
-        onFocus={() => {
-          isMinuteActiveRef.current = false;
-          clearTimeout(delayTimerIdRef.current);
-        }}
+        name={name}
+        id={id}
       />
       <span>:</span>
       <NumberInput
@@ -199,18 +275,7 @@ function TimeInput({
         ref={minuteElementRef}
         onChange={(newMinute) => changeTime(hour, newMinute)}
         onKeyDown={handleMinuteInputKeyDown}
-        onFocus={() => {
-          isMinuteActiveRef.current = true;
-          clearTimeout(delayTimerIdRef.current);
-        }}
-        onBlur={() => {
-          clearTimeout(delayTimerIdRef.current);
-          // 延迟设置时间失去焦点状态，有可能是因为点击上下箭头按钮导致的失去焦点
-          delayTimerIdRef.current = (setTimeout(() => {
-            isMinuteActiveRef.current = false;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          }, 500) as any) as number;
-        }}
+        name={name}
       />
       <TimeInputActions
         handleClear={handleClear}

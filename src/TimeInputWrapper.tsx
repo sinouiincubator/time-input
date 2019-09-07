@@ -27,8 +27,8 @@ const TimeInputWrapper = styled(InputWrapper)`
     background: transparent;
     width: 1.2em;
     color: inherit;
-
     transition: background-color 0.3s;
+    font-size: inherit;
   }
 
   .sinoui-time-input__number-input:focus {
