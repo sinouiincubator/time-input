@@ -6,23 +6,26 @@ route: /
 import { useState } from 'react';
 import { Playground, Props } from 'docz';
 import TimeInput from '../src/TimeInput';
+import CustomStyleTimeInput from './src/CustomStyleTimeInput';
 
 # 时间输入框 `TimeInput`
 
-安装依赖：
+用于输入时间的键盘友好的 React 组件。 [源码](https://github.com/sinouiincubator/time-input)、 [issue](https://github.com/sinouiincubator/time-input/issues)
+
+## 安装
 
 ```shell
 yarn add @sinouiincubator/time-input
 ```
 
-基本用法：
+## 使用
 
 ```tsx
 import React, { useState } from 'react';
 import TimeInput from '@sinouiincubator/time-input';
 
 function Demo() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('12:34');
 
   return <TimeInput value={value} onChange={setValue} />;
 }
@@ -32,35 +35,213 @@ function Demo() {
 
 <Playground>
   {() => {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState('12:34');
     return <TimeInput value={value} onChange={setValue} />;
   }}
 </Playground>
 
+对比一下原生时间元素（在 Chrome 中查看）：
+
+<Playground>
+  <input type="time" value="12:34" />
+</Playground>
+
 ## 特性
 
-TODO
+- UI 与 Chrome 的 `<input type="time" />` 一致。
+- 支持 IE 11+ 和现代浏览器。
+- 键盘友好
+  - 可以输入时间
+  - 上、下方向键调整时间
+  - 左、右和 tab 键在小时和分钟输入框之间切换
+  - 删除（Delete）、回格（Backspace）键清除时间
+- 支持清除、上调、下调时间的按钮
+- 100% 测试覆盖率
+- 支持自定义样式
+- 易于与[Formik](https://jaredpalmer.com/formik/)、[@sinoui/rx-form-state](https://sinoui.github.io/sinoui-forms-library/)等表单库集成
 
 ## 属性
 
 <Props of={TimeInput} />
 
-## 值处理
+## 输入框状态
 
-处理的值是形如 `02:12` 这样的时间，目前只支持 `24` 小时制，不支持 `12` 小时制的时间格式。
+时间输入框除了正常态之外，还支持只读（ readOnly ）、不可用（ disabled ）、校验错误（ error ）三种 UI 状态。效果如下所示。
 
-> 限制：如果输入框中的时间没有输入完整，则不会向外发送值变更事件，即不会调用`onChange`属性，只有当输入了完整的时间，才会向外发送值变更事件。
+### Normal
 
-TODO
+<TimeInput value="12:00" />
+
+```tsx
+<TimeInput value="12:00" />
+```
+
+### readOnly
+
+<TimeInput value="12:00" readOnly />
+
+```tsx
+<TimeInput value="12:00" readOnly />
+```
+
+### disabled
+
+<TimeInput value="12:00" disabled />
+
+```tsx
+<TimeInput value="12:00" disabled />
+```
+
+### error
+
+<TimeInput value="12:00" error />
+
+```tsx
+<TimeInput value="12:00" error />
+```
+
+## 时间值
+
+`TimeInput` 处理的值是形如 `02:12` 这样的时间，目前只支持 `24` 小时制，不支持 `12` 小时制的时间格式。
+
+> 限制：如果输入框中的时间没有输入完整，则不会向外发送值变更事件，即不会调用 `onChange` 属性，只有当输入了完整的时间，才会向外发送值变更事件。
+
+> 重点：不建议指定 `''`，应指定 `'00:00'` 这样的默认值。
+
+指定 `''` 的情况：
+
+<Playground>
+  {() => {
+    const [value, setValue] = useState('');
+    return (
+      <>
+        <TimeInput value={value} onChange={setValue} />
+        <div>输入的时间值：{value}</div>
+      </>
+    );
+  }}
+</Playground>
+
+指定有效时间值的情况：
+
+<Playground>
+  {() => {
+    const [value, setValue] = useState('00:00');
+    return (
+      <>
+        <TimeInput value={value} onChange={setValue} />
+        <div>输入的时间值：{value}</div>
+      </>
+    );
+  }}
+</Playground>
 
 ## 与 `@sinoui/forms` 集成
 
-TODO
+`@sinoui/forms` 采用 [Formik](https://jaredpalmer.com/formik/) 作为状态管理的库。 `TimeInput` 可以与 `@sinoui/forms` 集成使用，如下所示：
+
+先定义`TimeInputField`组件：
+
+```tsx
+import React from 'react';
+import { Field } from '@sinoui/forms';
+import TimeInput from '@sinouiincubator/time-input';
+
+export default function TimeInputField(props) {
+  return <Field component={TimeInput} {...props} />;
+}
+```
+
+然后就可以使用 `TimeInputField`：
+
+```tsx
+import React from 'react';
+import Form, { FormItem, Label } from '@sinoui/forms';
+import TimeInputField from './TimeInputField';
+
+function Demo() {
+  return (
+    <Form>
+      <FormItem>
+        <Label>时间</Label>
+        <TimeInputField name="startTime" />
+      </FormItem>
+      <FormItem>
+        <Label>结束时间</Label>
+        <TimeInputField name="endTime" />
+      </FormItem>
+    </Form>
+  );
+}
+```
 
 ## 与 `@sinoui/rx-form-state` 集成
 
-TODO
+[@sinoui/rx-form-state](https://sinoui.github.io/sinoui-forms-library/)是高性能表单状态管理库。`TimeInput` 与 `@sinoui/rx-form-state` 的集成与 `@sinoui/forms` 类似。如下示例：
+
+先定义`TimeInputField`组件：
+
+```tsx
+import React from 'react';
+import { Field } from '@sinoui/sinoui-components-forms';
+import TimeInput from '@sinouiincubator/time-input';
+
+export default function TimeInputField(props) {
+  return <Field component={TimeInput} {...props} />;
+}
+```
+
+```tsx
+import React from 'react';
+import { Form, FormItem, Label } from '@sinoui/sinoui-components-forms';
+import TimeInputField from './TimeInputField';
+
+function Demo() {
+  return (
+    <Form>
+      <FormItem>
+        <Label>时间</Label>
+        <TimeInputField name="startTime" />
+      </FormItem>
+      <FormItem>
+        <Label>结束时间</Label>
+        <TimeInputField name="endTime" />
+      </FormItem>
+    </Form>
+  );
+}
+```
 
 ## 样式定制
 
-TODO
+`TimeInput` 支持多种方式设定样式，包括：
+
+- `style`
+- `className`
+- styled-components
+
+可以参考 `TimeInput` 的 DOM 结构定制 `TimeInput` 内部元素的样式：
+
+```
+div.sinoui-time-input
+|__ input.sinoui-time-input__number-input 小时输入框
+|__ input.sinoui-time-input__number-input 分钟输入框
+|__ button.sinoui-time-input__clear-action 清空值按钮
+|__ div.sinoui-time-input__actions
+  |__ button.sinoui-time-input__up-action 向上按钮
+  |__ button.sinoui-time-input__down-action 向下按钮
+```
+
+例如，字体颜色定制为 `green`：
+
+```tsx
+const CustomTimeInput = styled(TimeInput)`
+  &&& {
+    color: green;
+  }
+`;
+```
+
+<Playground>
+  <CustomStyleTimeInput />
+</Playground>

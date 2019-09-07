@@ -1,59 +1,40 @@
-# time-input
+# @sinouiincubator/time-input
 
-这是由[ts-lib-scripts](https://github.com/sinoui/ts-lib-scripts)创建的TypeScript库项目。
+用于输入时间的键盘友好的 React 组件。
 
-## 本地开发
+查看[文档](https://sinouiincubator.github.io/time-input/)。
 
-项目中有以下有用的命令。
+## 特性
 
-### `yarn start`
+- UI 与 Chrome 的 `<input type="time" />` 一致。
+- 支持 IE 11+ 和现代浏览器。
+- 键盘友好
+  - 可以输入时间
+  - 上、下方向键调整时间
+  - 左、右和 tab 键在小时和分钟输入框之间切换
+  - 删除（Delete）、回格（Backspace）键清除时间
+- 支持清除、上调、下调时间的按钮
+- 100% 测试覆盖率
+- 支持自定义样式
+- 易于与[Formik](https://jaredpalmer.com/formik/)、[@sinoui/rx-form-state](https://sinoui.github.io/sinoui-forms-library/)等表单库集成
 
-在开发和监听模式下启动项目。当代码发生变化时就会重新编译代码。它同时会实时地向你汇报项目中的代码错误。
-
-### `yarn build`
-
-打包，并将打包文件放在`dist`文件夹中。使用 rollup 对代码做优化并打包成多种格式（`Common JS`，`UMD`和`ES Module`）。
-
-### `yarn lint`
-
-`yarn lint`会检查整个项目是否有代码错误、风格错误。
-
-开启 vscode 的 eslint、prettier 插件，在使用 vscode 编码时，就会自动修正风格错误、提示语法错误。
-
-### `yarn format`
-
-`yarn format`可以自动调整整个项目的代码风格问题。
-
-### `yarn test`
-
-`yarn test`以监听模式启动 jest，运行单元测试。
-
-开启 vscode 的 jest 插件，会在文件变化时自动运行单元测试。
-
-### 预览文档
+## 安装
 
 ```shell
-yarn doc:dev
+yarn add @sinouiincubator/time-input
 ```
 
-### 编译并打包文档
+## 使用
 
-```shell
-yarn doc:publish
-```
+```tsx
+import React, { useState } from 'react';
+import TimeInput from '@sinouiincubator/time-input';
 
-### 发布文档
+function Demo() {
+  const [value, setValue] = useState('');
 
-在发布文档之前，在`package.json`中配置好`homepage`，如下所示：
-
-```json
-{
-  "homepage": "https://sinouiincubator.github.io/editable-data-table"
+  return <TimeInput value={value} onChange={setValue} />;
 }
 ```
 
-配置完之后就可以执行下面的命令行发布文档：
-
-```shell
-yarn doc:publish
-```
+更多内容查看[文档](https://sinouiincubator.github.io/time-input/)。

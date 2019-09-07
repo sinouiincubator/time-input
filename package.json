@@ -6,6 +6,14 @@
   "umd:main": "dist/time-input.umd.production.js",
   "module": "dist/time-input.esm.js",
   "typings": "dist/index.d.ts",
+  "homepage": "https://sinouiincubator.github.io/time-input/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sinouiincubator/time-input.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sinouiincubator/time-input/issues"
+  },
   "scripts": {
     "start": "ts-lib-tools watch",
     "test": "ts-lib-tools test",
