@@ -63,19 +63,6 @@ const NumberInput: React.SFC<Props> = React.forwardRef(
     }
 
     /**
-     * 变更值
-     *
-     * @param num 新的值
-     */
-    function changeValue(num: number) {
-      if ((num < 10 && num * 10 > max) || num >= max) {
-        fireInputEndEvent();
-      }
-
-      onChange(formatNumValue(Math.min(max, num)));
-    }
-
-    /**
      * 处理键盘事件
      */
     function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -87,14 +74,19 @@ const NumberInput: React.SFC<Props> = React.forwardRef(
       }
 
       if (NUMBER_REGEXP.test(key)) {
-        changeValue(getNextTimeValue(value, max, key));
-        if (Number.isNaN(parseNumStr(value))) {
+        const nextValue = getNextTimeValue(value, max, key);
+
+        if ((nextValue < 10 && nextValue * 10 > max) || nextValue >= max) {
+          fireInputEndEvent();
+        } else if (Number.isNaN(parseNumStr(value))) {
           keyIndexRef.current = 1;
         } else if (keyIndexRef.current === 1) {
           fireInputEndEvent();
         } else {
           keyIndexRef.current = 1;
         }
+
+        onChange(formatNumValue(nextValue));
       } else if (key === KEY_ARROW_UP) {
         addNumToText(1);
       } else if (key === KEY_ARROW_DOWN) {

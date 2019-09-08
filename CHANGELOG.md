@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v0.1.1
+
+- improve: 补充 NumberInput 完整的单元测试
+- improve: 在 NumberInput 组件中更直接的实现 “跳转规则5”
+
+“跳转规则5” 是指小时输入框中输入的数字超过 23 后会自动跳转到分钟输入框，之后回到小时输入框，应输入有效小时后才能自动跳转到分钟输入框。
+
 ## v0.1.0 (2019.9.7)
 
 - feat: UI 与 Chrome 的 `<input type="time" />` 一致。

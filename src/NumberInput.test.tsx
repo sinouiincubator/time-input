@@ -43,7 +43,7 @@ it('输入数字，值会变更', () => {
   expect(onChange).toBeCalledWith('01');
 });
 
-it('空值情况下，输入两位数字后，可进入下一个输入框', () => {
+it('inputEnd 规则1：空值情况下，输入两位数字后，可进入下一个输入框', () => {
   const handleInputEnd = jest.fn();
 
   function Demo() {
@@ -78,7 +78,7 @@ it('空值情况下，输入两位数字后，可进入下一个输入框', () =
   expect(handleInputEnd).toBeCalled();
 });
 
-it('输入框获取到焦点，输入两位数字后，课进入下一个输入框', () => {
+it('inputEnd 规则2：输入框获取到焦点，输入两位数字后，可进入下一个输入框', () => {
   const handleInputEnd = jest.fn();
 
   function Demo() {
@@ -113,7 +113,7 @@ it('输入框获取到焦点，输入两位数字后，课进入下一个输入�
   expect(handleInputEnd).toBeCalled();
 });
 
-it('输入的数字超过最大值，可进入下一个输入框', () => {
+it('inputEnd 规则3：输入的数字超过最大值，可进入下一个输入框', () => {
   const handleInputEnd = jest.fn();
 
   function Demo() {
@@ -142,7 +142,7 @@ it('输入的数字超过最大值，可进入下一个输入框', () => {
   expect(handleInputEnd).toBeCalled();
 });
 
-it('输入的数字，如果再输入任意一位数字就会超过最大值，则可进入下一个输入框', () => {
+it('inputEnd 规则4：输入的数字，如果再输入任意一位数字就会超过最大值，则可进入下一个输入框', () => {
   const handleInputEnd = jest.fn();
 
   function Demo() {
@@ -171,7 +171,89 @@ it('输入的数字，如果再输入任意一位数字就会超过最大值，�
   expect(handleInputEnd).toBeCalled();
 });
 
-it('值为空时，输入一位数字，失去焦点，之后再输入两位数字（不违反以上规则的两位数字）才可进入下一个输入框', () => {
+it('inputEnd 规则5：输入的数字超过最大值，跳到下一个输入框后，再回到这个输入框，应输入两位数字（不违反以上规则的两位数字）才可进入下一个输入框', () => {
+  const handleInputEnd = jest.fn();
+
+  function Demo() {
+    const [value, setValue] = useState('00');
+
+    return (
+      <NumberInput
+        value={value}
+        onChange={setValue}
+        max={23}
+        onInputEnd={handleInputEnd}
+      />
+    );
+  }
+
+  const { getByTestId } = render(<Demo />);
+
+  const input = getByTestId('timeNumberInput');
+
+  act(() => {
+    fireEvent.keyDown(input, {
+      key: '3',
+    });
+  });
+
+  // 进入到下一个输入框
+  expect(handleInputEnd).toBeCalledTimes(1);
+
+  // 回到这个输入框继续输入数字
+  act(() => {
+    fireEvent.keyDown(input, {
+      key: '1',
+    });
+  });
+
+  expect(handleInputEnd).toBeCalledTimes(1);
+
+  act(() => {
+    fireEvent.keyDown(input, {
+      key: '2',
+    });
+  });
+
+  expect(handleInputEnd).toBeCalledTimes(2);
+});
+
+it('inputEnd规则补充验证点：如果同时满足规则1（或者规则2）和规则3（或者规则4），则只需触发一次inputEnd事件', () => {
+  const handleInputEnd = jest.fn();
+
+  function Demo() {
+    const [value, setValue] = useState('02');
+
+    return (
+      <NumberInput
+        value={value}
+        onChange={setValue}
+        max={23}
+        onInputEnd={handleInputEnd}
+      />
+    );
+  }
+
+  const { getByTestId } = render(<Demo />);
+
+  const input = getByTestId('timeNumberInput');
+
+  act(() => {
+    fireEvent.keyDown(input, {
+      key: '2',
+    });
+  });
+
+  act(() => {
+    fireEvent.keyDown(input, {
+      key: '3',
+    });
+  });
+
+  expect(handleInputEnd).toBeCalledTimes(1);
+});
+
+it('inputEnd 规则6：值为空时，输入一位数字，失去焦点，之后再输入两位数字（不违反以上规则的两位数字）才可进入下一个输入框', () => {
   const handleInputEnd = jest.fn();
 
   function Demo() {
