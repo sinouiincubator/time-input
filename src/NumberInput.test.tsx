@@ -78,6 +78,41 @@ it('空值情况下，输入两位数字后，可进入下一个输入框', () =
   expect(handleInputEnd).toBeCalled();
 });
 
+it('输入框获取到焦点，输入两位数字后，课进入下一个输入框', () => {
+  const handleInputEnd = jest.fn();
+
+  function Demo() {
+    const [value, setValue] = useState('12');
+
+    return (
+      <NumberInput
+        value={value}
+        onChange={setValue}
+        max={23}
+        onInputEnd={handleInputEnd}
+      />
+    );
+  }
+
+  const { getByTestId } = render(<Demo />);
+
+  const input = getByTestId('timeNumberInput');
+
+  act(() => {
+    fireEvent.keyDown(input, {
+      key: '2',
+    });
+  });
+
+  act(() => {
+    fireEvent.keyDown(input, {
+      key: '1',
+    });
+  });
+
+  expect(handleInputEnd).toBeCalled();
+});
+
 it('输入的数字超过最大值，可进入下一个输入框', () => {
   const handleInputEnd = jest.fn();
 
