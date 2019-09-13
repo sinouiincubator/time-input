@@ -18,6 +18,12 @@ import CustomStyleTimeInput from './src/CustomStyleTimeInput';
 yarn add @sinouiincubator/time-input
 ```
 
+`time-input` 采用 `styled-components` 组织样式，并使用 `sinoui-components` 中的组件，所以需要同时安装以下依赖：
+
+```shell
+yarn add styled-components sinoui-components
+```
+
 ## 使用
 
 ```tsx
@@ -45,6 +51,26 @@ function Demo() {
 <Playground>
   <input type="time" value="12:34" />
 </Playground>
+
+完整示例：
+
+```tsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'styled-components'；
+import defaultTheme from 'sinoui-components/styles/defaultTheme';
+import TimeInput from '@sinouiincubator/time-input';
+
+function Demo() {
+  return <ThemeProvider theme={defaultTheme}>
+    <TimeInput />
+  </ThemeProvider>
+}
+
+ReactDOM.render(<Demo />, document.getElementById('root'));
+```
+
+（这一段代码可以在 [create-app-root](https://create-react-app.dev/) 中运行）。
 
 ## 特性
 

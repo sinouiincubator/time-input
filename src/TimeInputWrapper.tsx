@@ -1,4 +1,4 @@
-import styled from 'sinoui-components/styles';
+import styled from 'styled-components';
 import { InputWrapper } from 'sinoui-components/TextInput';
 
 const TimeInputWrapper = styled(InputWrapper)`

@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
 import { storiesOf } from '@storybook/react';
-import { ThemeProvider } from 'sinoui-components/styles';
+import { ThemeProvider } from 'styled-components';
 import defaultTheme from 'sinoui-components/styles/defaultTheme';
 import { action } from '@storybook/addon-actions';
 import TimeInput from '../src/TimeInput';

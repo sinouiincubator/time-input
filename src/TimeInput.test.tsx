@@ -1,6 +1,6 @@
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import React from 'react';
-import { ThemeProvider } from 'sinoui-components/styles';
+import { ThemeProvider } from 'styled-components';
 import defaultTheme from 'sinoui-components/styles/defaultTheme';
 import '@testing-library/jest-dom/extend-expect';
 import { act } from 'react-test-renderer';
