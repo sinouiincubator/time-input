@@ -1,11 +1,14 @@
 # CHANGELOG
 
-## v0.1.1
+## v0.2.0 (2019.9.13)
 
 - improve: 补充 NumberInput 完整的单元测试
-- improve: 在 NumberInput 组件中更直接的实现 “跳转规则5”
+- improve: 在 NumberInput 组件中更直接的实现 “跳转规则 5”
+- breakchange: sinoui-components 0.1.30 -> 0.2.0.alpah.2
+- breakchange: styled-components 3.4.10 -> 4.0.0+
+- breakchange: 将 `sinoui-components` 和 `styled-components` 的依赖从 `dependencies` 迁移到 `peerDependencies` 中。
 
-“跳转规则5” 是指小时输入框中输入的数字超过 23 后会自动跳转到分钟输入框，之后回到小时输入框，应输入有效小时后才能自动跳转到分钟输入框。
+“跳转规则 5” 是指小时输入框中输入的数字超过 23 后会自动跳转到分钟输入框，之后回到小时输入框，应输入有效小时后才能自动跳转到分钟输入框。
 
 ## v0.1.0 (2019.9.7)
 
