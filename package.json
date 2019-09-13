@@ -55,8 +55,8 @@
   "peerDependencies": {
     "react": ">=16.8.0",
     "scheduler": "^0.15.0",
-    "styled-components": ">= 4.0.0",
-    "sinoui-components": ">= 0.2.0-alpha.2"
+    "sinoui-components": ">= 0.2.0-alpha.2",
+    "styled-components": ">= 4.0.0"
   },
   "files": [
     "dist",
@@ -78,6 +78,7 @@
     "@types/classnames": "^2.2.9",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
+    "@types/styled-components": "^4.1.19",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
     "docz": "^1.3.1",
@@ -92,12 +93,12 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-test-renderer": "^16.9.0",
+    "sinoui-components": "^0.2.0-alpha.2",
     "style-loader": "^1.0.0",
+    "styled-components": "^5.0.0-beta.8",
     "ts-lib-tools": "^0.4.7",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "typescript": "^3.6.2",
-    "webpack-docz-ghpages-plugin": "^0.4.0",
-    "styled-components": "^5.0.0-beta.8",
-    "sinoui-components": "^0.2.0-alpha.2"
+    "webpack-docz-ghpages-plugin": "^0.4.0"
   }
 }
