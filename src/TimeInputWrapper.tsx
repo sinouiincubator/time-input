@@ -1,5 +1,12 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { InputWrapper } from 'sinoui-components/TextInput';
+
+const focusRules = css`
+  & .sinoui-time-input__actions,
+  &.sinoui-time-input-contains-value .sinoui-time-input__clear-action {
+    visibility: visible;
+  }
+`;
 
 const TimeInputWrapper = styled(InputWrapper)`
   display: inline-flex;
@@ -61,14 +68,14 @@ const TimeInputWrapper = styled(InputWrapper)`
     transition: background-color 0.3s;
   }
 
-  ${(props) =>
-    props.focused &&
-    `
-    & .sinoui-time-input__actions,
-    &.sinoui-time-input-contains-value .sinoui-time-input__clear-action {
-      visibility: visible;
-    }
-  `}
+  ${(props) => props.focused && focusRules};
+
+  .sinoui-time-input__actions-container {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
 
   &:hover .sinoui-time-input__actions,
   &.sinoui-time-input-contains-value:hover .sinoui-time-input__clear-action {

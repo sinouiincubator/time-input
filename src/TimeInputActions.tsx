@@ -15,7 +15,7 @@ function TimeInputActions({
   handleDown: () => void;
 }) {
   return (
-    <>
+    <div className="sinoui-time-input__actions-container">
       <BaseButton
         data-testid="timeInputClearAction"
         className="sinoui-time-input__clear-action"
@@ -39,7 +39,7 @@ function TimeInputActions({
           <MdExpandMore />
         </BaseButton>
       </div>
-    </>
+    </div>
   );
 }
 

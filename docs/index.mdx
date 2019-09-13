@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Playground, Props } from 'docz';
 import TimeInput from '../src/TimeInput';
 import CustomStyleTimeInput from './src/CustomStyleTimeInput';
+import WideTimeInput from './src/WideTimeInput';
 
 # 时间输入框 `TimeInput`
 
@@ -57,18 +58,22 @@ function Demo() {
 ```tsx
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ThemeProvider } from 'styled-components'；
+import { ThemeProvider } from 'styled-components';
 import defaultTheme from 'sinoui-components/styles/defaultTheme';
 import TimeInput from '@sinouiincubator/time-input';
 
 function Demo() {
-  return <ThemeProvider theme={defaultTheme}>
-    <TimeInput />
-  </ThemeProvider>
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <TimeInput />
+    </ThemeProvider>
+  );
 }
 
 ReactDOM.render(<Demo />, document.getElementById('root'));
 ```
+
+在 [codesandbox](https://codesandbox.io/s/damp-cloud-x3ktf) 中查看效果。
 
 （这一段代码可以在 [create-app-root](https://create-react-app.dev/) 中运行）。
 
@@ -252,10 +257,11 @@ function Demo() {
 div.sinoui-time-input
 |__ input.sinoui-time-input__number-input 小时输入框
 |__ input.sinoui-time-input__number-input 分钟输入框
-|__ button.sinoui-time-input__clear-action 清空值按钮
-|__ div.sinoui-time-input__actions
-  |__ button.sinoui-time-input__up-action 向上按钮
-  |__ button.sinoui-time-input__down-action 向下按钮
+|__ div.sinoui-time-input__actions-container
+  |__ button.sinoui-time-input__clear-action 清空值按钮
+  |__ div.sinoui-time-input__actions
+    |__ button.sinoui-time-input__up-action 向上按钮
+    |__ button.sinoui-time-input__down-action 向下按钮
 ```
 
 例如，字体颜色定制为 `green`：
@@ -270,4 +276,18 @@ const CustomTimeInput = styled(TimeInput)`
 
 <Playground>
   <CustomStyleTimeInput />
+</Playground>
+
+例如，定制更长的输入框：
+
+```tsx
+const CustomStyleTimeInput = styled(TimeInput)`
+  &&& {
+    width: 200px;
+  }
+`;
+```
+
+<Playground>
+  <WideTimeInput />
 </Playground>
