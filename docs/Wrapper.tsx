@@ -9,5 +9,9 @@ interface WrapperProps {
 
 export default function Wrapper(props: WrapperProps) {
   const { children } = props;
-  return <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>;
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <>{children}</>
+    </ThemeProvider>
+  );
 }

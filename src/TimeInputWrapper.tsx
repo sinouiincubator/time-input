@@ -45,7 +45,10 @@ const TimeInputWrapper = styled(InputWrapper)`
   .sinoui-time-input__clear-action {
     visibility: hidden;
 
-    color: ${(props) => props.theme.palette.primary[500]};
+    color: ${(props) =>
+      props.theme.palette.type === 'light'
+        ? props.theme.palette.primary[500]
+        : 'white'};
     font-weight: 700;
     height: 1rem;
     width: 1rem;
@@ -56,7 +59,8 @@ const TimeInputWrapper = styled(InputWrapper)`
 
     width: 20px;
     height: 30px;
-    background-color: ${(props) => props.theme.palette.background.appBar};
+    background-color: ${(props) =>
+      props.theme.palette.type === 'light' ? '#f5f5f5' : 'white'};
     font-size: 10px;
     display: flex;
     flex-direction: column;
