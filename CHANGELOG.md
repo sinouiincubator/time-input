@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## next
+
+- feat: 支持自定义输入框宽度
+- feat: 支持深色主题
+
 ## v0.2.0 (2019.9.13)
 
 - improve: 补充 NumberInput 完整的单元测试
